@@ -5,7 +5,7 @@ from socket import socket, AF_INET, SOCK_DGRAM, SOL_SOCKET, SO_BROADCAST, gethos
 import sys
 import pygame
 import numpy as np
-import cv2
+# import cv2
 from mss import mss
 from PIL import Image
 import sys
@@ -66,12 +66,12 @@ def fail(msg: str):
     print("[ERROR]", msg)
     sys.exit(1)
 
-def show_mini_monitor(img):
-    cv2.imshow('test', img)
-    if cv2.waitKey(33) & 0xFF in (
-        ord('q'), 
-        27, 
-    ): return
+# def show_mini_monitor(img):
+#     cv2.imshow('test', img)
+#     if cv2.waitKey(33) & 0xFF in (
+#         ord('q'), 
+#         27, 
+#     ): return
 
 def decode_message(msg: bytearray, state: ProcessState):
     sign = msg[:3].decode("UTF-8")
@@ -93,7 +93,7 @@ def run_screen_transmiter(process_state: ProcessState):
     process_state.running = True
     process_state.ip_label = f"Searching for server {next(pool)}"
     process_state.server_ip = None
-    
+
     while not process_state.server_ip and process_state.running:
         process_state.ip_label = f"Searching for server {next(pool)}"
         process_state.server_socket.sendto(data, process_state.broadcast_address)
@@ -155,12 +155,10 @@ class MyWindow(Gtk.Window):
 
         self.stop_button = Gtk.Button(label="Stop Transmission")
         self.stop_button.connect("clicked", self.on_stop_clicked)
-        
+
         self.start_button = Gtk.Button(label="Start Transmission")
         self.start_button.connect("clicked", self.on_start_clicked)
-        
-       
-        
+
         self.ip_label = Gtk.Label(label=self.state.ip_label)
 
         self.frame = Gtk.Frame(label="server IP")
